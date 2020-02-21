@@ -1,0 +1,312 @@
+/* @media 1024 */
+@media handheld, screen and (max-width: 1024px){
+
+    .footer{
+        margin: 0 auto;
+        height: auto;
+        position: static;
+    }
+
+    .content{
+        padding-top: 0;
+    }
+
+    .content h2{
+        font-size: 32px;
+    }
+    .content #company .list .item h2{
+        font-size: 20px;
+    }
+
+    .header{
+        overflow: visible;
+    }
+
+    .header h1 {
+        color: #fff;
+        font-size: 16px;
+        white-space: nowrap;
+        padding-left: 24px;
+        line-height: 16px;
+        text-transform: uppercase;
+        padding-top: 31px;
+    }
+
+    .header nav{
+        position: relative;
+    }
+    .header .menu-desktop{
+        display: none;
+    }
+    .header .mobile-menu{
+        display: block !important;
+        width: 24px;
+        height: 78px;
+        margin-right: 24px;
+        background: transparent url("img/mobile-menu.png") right center no-repeat;
+        cursor: pointer;cursor: hand;
+    }
+    .header .menu-mobile{
+        display: none;
+        background: #60829e;
+        padding: 0 9px 9px 9px;
+        z-index: 40;
+        position:absolute;
+        right:0;
+        top:78px;
+    }
+    .header .menu-mobile li{
+        text-align: right;
+    }
+    .header .menu-mobile li:hover{
+        border-bottom: none;
+    }
+    .header .menu-mobile li a{
+        white-space: nowrap;
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+        padding: 0;
+        font-size: 18px;
+    }
+
+    .content #teaser .inner{
+        /*top:5%;*/
+    }
+    .content #teaser .inner h1 {
+        font-size: 24px;
+        line-height: normal;
+        padding: 12px 24px;
+    }
+    .content #teaser .inner h2 {
+        padding: 12px 24px 12px 48px;
+        font-size: 20px;
+        line-height: normal;
+    }
+
+    .orbit-previous{
+        margin-left: 0;
+    }
+    .orbit-next{
+        margin-right: 0;
+    }
+}
+
+/* @media 768 */
+@media handheld, screen and (max-width: 768px){
+
+    a.backtotop{
+        width: 32px;
+        height: 32px;
+    }
+
+    .content #teaser .inner{
+        top:0;
+    }
+    .content #teaser .inner h1 {
+        font-size: 24px;
+    }
+    .content #teaser .inner h2 {
+        font-size: 16px;
+        line-height: normal;
+    }
+    .content #teaser .inner h2 ul li:before{
+        line-height: 18px;
+        left:-18px;
+    }
+    .content section#company, .content section#service, .content section#partners{
+        padding-left: 9px;
+        padding-right: 9px;
+        margin-top: 24px;
+    }
+    .content #products{
+        padding-top: 32px;
+    }
+    .content section#partners{
+        margin-top: 36px;
+    }
+    .content #company h1 {
+        margin-top: 18px;
+    }
+    .content #contact .info h1 {
+        margin-top: 32px;
+    }
+
+    footer h1{
+        margin-left: 9px;
+    }
+}
+
+/* @media 480 */
+@media handheld, screen and (max-width: 480px){
+    p{
+        font-size: 14px;
+    }
+
+    .header {
+        height: 50px;
+        overflow: visible;
+        z-index: 20;
+    }
+
+    .header h1{
+        font-size: 14px;
+        white-space: nowrap;
+        padding-left: 9px;
+        line-height: 50px;
+        padding-top: 0;
+    }
+
+    .header .mobile-menu{
+        height: 50px;
+        margin-right: 9px;
+    }
+    .header .menu-mobile{
+        top:50px;
+        padding-top: 9px;
+    }
+    .header .menu-mobile li a{
+        white-space: nowrap;
+        display: inline-block;
+        height: 28px;
+        line-height: 28px;
+        padding: 0;
+        font-size: 14px;
+    }
+
+    .content{
+        overflow: hidden;
+        z-index: 10;
+        padding-top: 0;
+    }
+
+    .content h1 {
+        font-size: 32px;
+    }
+    .content h2 {
+        font-size: 24px;
+    }
+
+    .content #teaser .inner{
+        top:0;
+    }
+    .content #teaser .inner h1{
+        padding: 9px;
+    }
+    .content #teaser .inner h2{
+        padding: 2px 9px;
+    }
+    .content #teaser .inner h1{
+        font-size: 16px;
+        line-height: normal;
+    }
+    .content #teaser .inner h2 li, .content #teaser .inner h2 ul{
+        font-size: 13px;
+        line-height: 14px;
+        margin: 0;
+        padding: 0;
+    }
+    .content #teaser .inner h2 li{
+        padding-bottom: 6px;
+    }
+
+    .content section#company, .content section#service, .content section#partners{
+        padding-left: 9px;
+        padding-right: 9px;
+        margin-top: 24px;
+    }
+
+    .content #company h1 {
+        margin-top: 18px;
+    }
+    .content #company header h2 span {
+        font-size: 18px;
+    }
+    .content #company header p{
+        font-size: 16px;
+    }
+
+    .content #company .list {
+        margin-top: 24px;
+    }
+    .content #company .list .item img, .content #service .list .item img, .content #partners .list .item img {
+        margin-bottom: 9px;
+        margin-top: 18px;
+    }
+    .content #company .list .item h2{
+        font-size: 18px;
+    }
+    .content #company .list .item h2 span {
+        font-size: 24px;
+    }
+    .content #company .list .item p{
+        padding: 0 0 0 0;
+    }
+
+    .content #products{
+        padding: 18px 0;
+    }
+    .content #products > h1{
+        font-size: 32px;
+    }
+    .content #products .description{
+        padding-right: 0;
+    }
+    .content #products .functions{
+        padding-left: 0;
+    }
+    .content #products .functions ul li{
+        font-size: 14px;
+        text-indent: 14px;
+        line-height: normal;
+        margin-bottom: 9px;
+    }
+    .content #products .functions ul li:before{
+        left:-13px;
+        line-height: 15px;
+    }
+
+    .content #service .button {
+        margin-bottom: 48px;
+    }
+
+    .content #contact .info h1 {
+        margin-top: 32px;
+    }
+    .content #contact .info .vcard{
+        font-size: 18px;
+    }
+
+    .footer h1 {
+        text-align: center;
+        line-height: 64px;
+    }
+    footer .vcard {
+        padding: 0 0 0 18px;
+    }
+    footer .copy {
+        line-height: normal;
+        padding: 24px 18px 9px 0;
+    }
+
+}
+
+@media handheld, screen and (max-width: 360px){
+    .content #teaser img.tbg{
+        width: 120%;
+        height: 120%;
+        max-width: 200%;
+        max-height: 200%;
+    }
+    .content #contact .info .vcard .fancy > div a{
+        white-space: nowrap;
+    }
+}
+@media handheld, screen and (max-width: 320px){
+    .content #teaser img.tbg{
+        width: 150%;
+        height: 150%;
+        max-width: 200%;
+        max-height: 200%;
+    }
+}
