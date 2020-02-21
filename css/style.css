@@ -53,7 +53,7 @@
   cursor: pointer;
 }
 .bank_calc{
-  display: none;
+  /* display: none; */
   position: fixed;
   top: 0;
   left: 0;
@@ -93,17 +93,17 @@
   font-size: 1.7rem;
   margin-bottom: 2rem;
 }
-.bank_calc_content_value .cassets_icons {
+.bank_calc_content_value .cassets_icons_wraper {
   margin-bottom: 1rem;
 }
-.bank_calc_content_value .cassets_icons img {
+.bank_calc_content_value .cassets_icons_wraper img {
   width: 10%;
 }
 
-.bank_calc_content  .cassets_icons {
+.bank_calc_content  .cassets_icons_wraper {
   margin-bottom: 1rem;
 }
-.bank_calc_content .cassets_icons img {
+.bank_calc_content .cassets_icons_wraper img {
   width: 10%;
 }
 .bank_calc_button {
@@ -199,7 +199,7 @@
 
 /* Styles for 5th page */
 .bank_calc_5 {
-  /* display: none; */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
