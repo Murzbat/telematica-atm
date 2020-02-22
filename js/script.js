@@ -1,6 +1,8 @@
 window.addEventListener('DOMContentLoaded', function(){
     //Calc
-    let casset_number = document.getElementsByClassName('casset_number'),
+	let casset_number = document.getElementsByClassName('casset_number'),
+		atm = document.getElementsByClassName('glazing_slider')[0],
+		atm_choice = document.getElementsByClassName('glazing_block'),
         bank_calc = document.getElementsByClassName('bank_calc')[0],
         bank_calc_close = document.getElementsByClassName('bank_calc_close')[0],
         cassets_icons_wraper = document.getElementsByClassName('cassets_icons_wraper')[0],
@@ -30,11 +32,15 @@ window.addEventListener('DOMContentLoaded', function(){
 			casset_values: [],
 			casset_amount: [],
 			casset_condition: [],
-			getting_amount: "0"
+			getting_amount: 0
 
         }
+
+	atm.addEventListener('click',function(){
+		bank_calc.style.display = 'block'
 	
-    
+	})
+
     cassets_icons_wraper.addEventListener('click',function(){
         // console.log(event.target)
         for (let i=0; i < casset_number.length;i++) {
@@ -65,7 +71,7 @@ window.addEventListener('DOMContentLoaded', function(){
 				exist_value_for_cassets[7-i].remove()
 			}
 			for (let i=0; i<exist_value_for_cassets.length;i++){
-				atm_properties.casset_values[i] = "100";
+				atm_properties.casset_values[i] = 100;
 			}
 		}
 	})
@@ -76,7 +82,7 @@ window.addEventListener('DOMContentLoaded', function(){
 	
 	for (let i=0; i<exist_value_for_cassets.length;i++){
 		exist_value_for_cassets[i].addEventListener('change', function(){
-			atm_properties.casset_values[i] = exist_value_for_cassets[i].value 
+			atm_properties.casset_values[i] = +exist_value_for_cassets[i].value 
 			console.log(atm_properties.casset_values)
 		})
 	}
@@ -92,7 +98,7 @@ window.addEventListener('DOMContentLoaded', function(){
 		}
 		bank_calc_3.style.display = 'block';
 		for (let i = 0; i < exist_value_for_cassets.length; i++){
-			atm_properties.casset_amount[i] = "0"
+			atm_properties.casset_amount[i] = 0
 		}
 		console.log(atm_properties.casset_amount)
 	})
@@ -102,7 +108,7 @@ window.addEventListener('DOMContentLoaded', function(){
       				  return this.value = this.value.replace(/[^\d]/g, '');
 		};
 		exist_amount_for_cassets[i].addEventListener('change', function(){
-			atm_properties.casset_amount[i] = exist_amount_for_cassets[i].value
+			atm_properties.casset_amount[i] = +exist_amount_for_cassets[i].value
 			console.log(atm_properties.casset_amount)
 		})
 	}
@@ -121,7 +127,7 @@ window.addEventListener('DOMContentLoaded', function(){
 		}
 		bank_calc_4.style.display = 'block';
 		for (let i = 0; i < exist_condition_for_cassets.length; i++){
-			atm_properties.casset_condition[i] = "1"
+			atm_properties.casset_condition[i] = 1
 		}
 		console.log(atm_properties.casset_condition)
 		
@@ -131,7 +137,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 		
 		exist_condition_for_cassets[i].addEventListener('change', function(){
-			atm_properties.casset_condition[i] = exist_condition_for_cassets[i].value 
+			atm_properties.casset_condition[i] = +exist_condition_for_cassets[i].value 
 			console.log(atm_properties.casset_condition)
 		})
 	}
@@ -156,13 +162,59 @@ window.addEventListener('DOMContentLoaded', function(){
 		return this.value = this.value.replace(/[^\d]/g, '');
 	};
 	getting_amount.addEventListener('change', function(){
-		atm_properties.getting_amount = getting_amount.value
+		atm_properties.getting_amount = +getting_amount.value
 	})
 	
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	//algoritm of this task 
-	
+	// console.log(Math.max(...atm_properties.casset_values))
+	next_btn_5.addEventListener('click', function(){
+		bank_calc_5.style.display = 'none';
+		let using_cassets = [],
+			arr_for_casset_values = [],
+			target_amount = atm_properties.getting_amount
+		for (let i=0; i<atm_properties.casset_number;i++){
+			using_cassets[i] = 0
+			arr_for_casset_values[i] = atm_properties.casset_values[i] 
+		}
+		for (let i=0; i<atm_properties.casset_number; i++){
+			let max = Math.max(...arr_for_casset_values),
+				max_id = arr_for_casset_values.indexOf(max)
+				console.log(max,' ',max_id)
+
+			if (Math.floor(atm_properties.getting_amount/max) >= atm_properties.casset_amount[max_id]) {
+					target_amount = target_amount - max*atm_properties.casset_amount[max_id]*atm_properties.casset_condition[max_id]
+					using_cassets[max_id] = atm_properties.casset_amount[max_id]*atm_properties.casset_condition[max_id]
+					console.log(target_amount)
+					console.log(using_cassets)
+					arr_for_casset_values[max_id] = 0
+
+				
+			} else {
+				target_amount = target_amount - max * Math.floor(atm_properties.getting_amount/max)*atm_properties.casset_condition[max_id]
+				using_cassets[max_id] = Math.floor(atm_properties.getting_amount/max)*atm_properties.casset_condition[max_id]
+				console.log(target_amount)
+				console.log(using_cassets)
+				arr_for_casset_values[max_id] = 0
+			}
+			if (target_amount == 0) {
+				break
+			}
+		}
+		if (target_amount == 0) {
+			for (let i =0; i<using_cassets.length; i++){
+				console.log('Можно выдать: Из кассеты с '+atm_properties.casset_values[i] +' '+ using_cassets[i]+'купюр')
+			}
+		} else {
+			console.log('Нельзя')
+		}
+		console.log(using_cassets);
+
+
+
+	}) 
+
 
 	
 });

@@ -53,7 +53,7 @@
   cursor: pointer;
 }
 .bank_calc{
-  /* display: none; */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
