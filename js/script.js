@@ -27,6 +27,8 @@ window.addEventListener('DOMContentLoaded', function(){
 		getting_amount = bank_calc_5.getElementsByClassName('form_for_getting')[0],
 		next_btn_5 = bank_calc_5.getElementsByClassName('button')[0],
 		bank_calc_5_close = bank_calc_5.getElementsByClassName('bank_calc_close')[0],
+		popup = document.getElementsByClassName('popup')[0],
+		popup_close = popup.getElementsByClassName('popup_close')[0],
         atm_properties = {
 			casset_number: 0,
 			casset_values: [],
@@ -34,10 +36,20 @@ window.addEventListener('DOMContentLoaded', function(){
 			casset_condition: [],
 			getting_amount: 0
 
-        }
+		}
+	
+	//Popup window for recruiting
+	
+		
+	popup_close.addEventListener('click', function(){
+		popup.style.display = 'none'
+	})
 
 	atm.addEventListener('click',function(){
 		bank_calc.style.display = 'block'
+		show_casset_number.innerHTML = atm_properties.casset_number;
+
+
 	
 	})
 
@@ -54,6 +66,8 @@ window.addEventListener('DOMContentLoaded', function(){
 	
 	bank_calc_close.addEventListener('click', function(){
 		bank_calc.style.display = 'none';
+		atm_properties.casset_number = 0;
+		show_casset_number.innerHTML = atm_properties.casset_number;
 
 	})
 	//!!!!!!!!!!!!!!!!!!!!
@@ -78,6 +92,9 @@ window.addEventListener('DOMContentLoaded', function(){
 	
 	bank_calc_2_close.addEventListener('click', function(){
 		bank_calc_2.style.display = 'none';
+		atm_properties.casset_number = 0;
+
+
 	})
 	
 	for (let i=0; i<exist_value_for_cassets.length;i++){
@@ -114,6 +131,8 @@ window.addEventListener('DOMContentLoaded', function(){
 	}
 	bank_calc_3_close.addEventListener('click', function(){
 		bank_calc_3.style.display = 'none';
+		atm_properties.casset_number = 0;
+
 	})
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -144,6 +163,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
 	bank_calc_4_close.addEventListener('click', function(){
 		bank_calc_4.style.display = 'none';
+		atm_properties.casset_number = 0;
+
 	})
 
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -156,6 +177,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
 	bank_calc_5_close.addEventListener('click', function(){
 		bank_calc_5.style.display = 'none';
+		atm_properties.casset_number = 0;
+
 	})
 
 	getting_amount.onkeyup = function (input){
@@ -210,6 +233,8 @@ window.addEventListener('DOMContentLoaded', function(){
 			console.log('Нельзя')
 		}
 		console.log(using_cassets);
+		atm_properties.casset_number = 0;
+
 
 
 
