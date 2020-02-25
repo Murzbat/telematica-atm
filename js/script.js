@@ -33,6 +33,11 @@ window.addEventListener('DOMContentLoaded', function(){
 		bank_calc_6_end = bank_calc_6.getElementsByClassName('button')[0],
 		answer = bank_calc_6.getElementsByClassName('answer')[0],
 		bank_calc_6_show = bank_calc_6.getElementsByClassName('show_info'),
+		bank_calc_6_show_condition = bank_calc_6.getElementsByClassName('show_condition'),
+		bank_calc_6_show_amount = bank_calc_6.getElementsByClassName('show_amount'),
+		bank_calc_6_show_value = bank_calc_6.getElementsByClassName('show_value'),
+		answer_cassets = bank_calc_6.getElementsByTagName('a'),
+		answer_summ = bank_calc_6.getElementsByClassName('answer_summ')[0],
 		popup = document.getElementsByClassName('popup')[0],
 		popup_close = popup.getElementsByClassName('popup_close')[0],
         atm_properties = {
@@ -135,7 +140,7 @@ window.addEventListener('DOMContentLoaded', function(){
 	for (let i=0; i<exist_amount_for_cassets.length;i++){
 		exist_value_for_cassets[i].addEventListener('change', function(){
 			atm_properties.casset_values[i] = +exist_value_for_cassets[i].value 
-			console.log(atm_properties.casset_values)
+			// console.log(atm_properties.casset_values)
 		})
 	}
 	//!!!!!!!!!!!!!!!!!!!!
@@ -152,13 +157,10 @@ window.addEventListener('DOMContentLoaded', function(){
 		for (let i = 0; i <atm_properties.casset_number; i++){
 			atm_properties.casset_amount[i] = 0
 		}
-		console.log(atm_properties.casset_amount)
-		console.log(atm_properties.casset_number)
-		console.log()
+		
 
 	})
-	console.log(exist_amount_for_cassets)
-	console.log(atm_properties.casset_number)
+
 
 	for (let i = 0; i < exist_amount_for_cassets.length; i++){
 
@@ -167,7 +169,7 @@ window.addEventListener('DOMContentLoaded', function(){
 		};
 		exist_amount_for_cassets[i].addEventListener('change', function(){
 			atm_properties.casset_amount[i] = +exist_amount_for_cassets[i].value
-			console.log(atm_properties.casset_amount)
+			// console.log(atm_properties.casset_amount)
 		})
 	}
 	bank_calc_3_close.addEventListener('click', function(){
@@ -206,7 +208,6 @@ window.addEventListener('DOMContentLoaded', function(){
 		for (let i = 0; i < exist_condition_for_cassets.length; i++){
 			atm_properties.casset_condition[i] = 1
 		}
-		console.log(atm_properties.casset_condition)
 		
 	})
 	
@@ -215,7 +216,6 @@ window.addEventListener('DOMContentLoaded', function(){
 		
 		exist_condition_for_cassets[i].addEventListener('change', function(){
 			atm_properties.casset_condition[i] = +exist_condition_for_cassets[i].value 
-			console.log(atm_properties.casset_condition)
 		})
 	}
 
@@ -292,14 +292,10 @@ window.addEventListener('DOMContentLoaded', function(){
 	//algoritm of this task 
 	next_btn_5.addEventListener('click', function(){
 		bank_calc_5.style.display = 'none';
-		console.log(atm_properties.casset_number)
-		console.log(atm_properties.casset_values)
-		console.log(atm_properties.casset_amount)
-		console.log(atm_properties.casset_condition)
-		console.log(atm_properties.getting_amount)
 
 
 
+		answer_summ.innerHTML = atm_properties.getting_amount
 		
 		let using_cassets = [],
 			arr_for_casset_values = [],
@@ -311,15 +307,13 @@ window.addEventListener('DOMContentLoaded', function(){
 		for (let i=0; i<atm_properties.casset_number; i++){
 			let max = Math.max(...arr_for_casset_values),
 				max_id = arr_for_casset_values.indexOf(max)
-				console.log(max,' ',max_id)
-				console.log(Math.floor(target_amount/max))
+			
 
 			if (Math.floor(target_amount/max) >= atm_properties.casset_amount[max_id]) {
 					using_cassets[max_id] = atm_properties.casset_amount[max_id]*atm_properties.casset_condition[max_id]
 					
 					target_amount = target_amount - max*atm_properties.casset_amount[max_id]*atm_properties.casset_condition[max_id]
-					console.log(target_amount)
-					console.log(using_cassets)
+			
 					arr_for_casset_values[max_id] = 0
 
 				
@@ -327,8 +321,7 @@ window.addEventListener('DOMContentLoaded', function(){
 				using_cassets[max_id] = Math.floor(target_amount/max)*atm_properties.casset_condition[max_id]
 				
 				target_amount = target_amount - max * Math.floor(target_amount/max)*atm_properties.casset_condition[max_id]
-				console.log(target_amount)
-				console.log(using_cassets)
+
 				arr_for_casset_values[max_id] = 0
 			}
 			if (target_amount == 0) {
@@ -339,24 +332,49 @@ window.addEventListener('DOMContentLoaded', function(){
 			answer.innerHTML = 'Можно'
 			
 			for (let i =0; i<using_cassets.length; i++){
-				console.log('Можно выдать: Из кассеты с '+atm_properties.casset_values[i] +' '+ using_cassets[i]+'купюр')
+				// console.log('Можно выдать: Из кассеты с '+atm_properties.casset_values[i] +' '+ using_cassets[i]+'купюр')
 				bank_calc_6_show[i].innerHTML = using_cassets[i];
+				// console.log(i)
+				bank_calc_6_show_amount[i].innerHTML = atm_properties.casset_amount[i];
+				bank_calc_6_show_value[i].innerHTML = atm_properties.casset_values[i];
+				if (atm_properties.casset_condition[i] == 1) {
+					bank_calc_6_show_condition[i].innerHTML = 'Исправна';
+
+				} else {
+					bank_calc_6_show_condition[i].innerHTML = 'Неисправна';
+
+				}
 				// if (atm_properties.cass){}
 
 			}
 		} else {
 			answer.innerHTML = 'Нельзя'
 			for (let i =0; i<using_cassets.length; i++){
-				console.log('Нельзя')
+				// console.log('Нельзя')
 				bank_calc_6_show[i].innerHTML = '';
+				bank_calc_6_show_amount[i].innerHTML = atm_properties.casset_amount[i];
+				if (atm_properties.casset_condition[i] == 1) {
+					bank_calc_6_show_condition[i].innerHTML = 'Исправна';
 
-				
+				} else {
+					bank_calc_6_show_condition[i].innerHTML = 'Неисправна';
+
+				}
+				bank_calc_6_show_value[i].innerHTML = atm_properties.casset_values[i];
+
 			}
 				
 		}
-		console.log(using_cassets);
+		// console.log(using_cassets);
+
+		for (let i=0; i < 8 - atm_properties.casset_number; i++){
+			answer_cassets[7-i].style.display = 'none'
+			// console.log(i)
+			
+		}
 		atm_properties.casset_number = 0;
 		bank_calc_6.style.display = 'block';
+		
 
 
 
@@ -365,6 +383,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 	bank_calc_6_close.addEventListener('click', function(){
 		bank_calc_6.style.display = 'none'
+		
 		for (let i=0; i < 8 ; i++){
 			exist_cassets[i].style.display = 'block'
 			exist_value_for_cassets[i].style.display = 'block'
@@ -382,6 +401,8 @@ window.addEventListener('DOMContentLoaded', function(){
 			exist_condition_for_cassets[i].value = "1"
 			exist_cassets_4rd_pg[i].style.display = 'block'
 			exist_condition_for_cassets[i].style.display = 'block'
+			//
+			answer_cassets[i].style.display = 'block'
 			
 		}
 		atm_properties.getting_amount = 0;
@@ -407,6 +428,9 @@ window.addEventListener('DOMContentLoaded', function(){
 			exist_condition_for_cassets[i].value = "1"
 			exist_cassets_4rd_pg[i].style.display = 'block'
 			exist_condition_for_cassets[i].style.display = 'block'
+			//
+			answer_cassets[i].style.display = 'block'
+
 			
 		}
 		atm_properties.getting_amount = 0;
