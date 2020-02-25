@@ -71,6 +71,7 @@
           transform: translateX(-50%);
   width: 40rem;
   background-color: #ffffff;
+  /* background-image: url(../img/1.png); */
 }
 .popup_content,
 .bank_calc_content_value {
@@ -97,9 +98,10 @@
 }
 .bank_calc_content_value .cassets_icons_wraper {
   margin-bottom: 1rem;
+  display: flex;
 }
 .bank_calc_content_value .cassets_icons_wraper img {
-  width: 10%;
+  width: 25%;
 }
 
 .bank_calc_content  .cassets_icons_wraper {
@@ -115,7 +117,7 @@
 }
 
 .bank_calc_content_number .form-control {
-  width: 10%;
+  width: 25%;
 }
 
 .bank_calc_2 {
@@ -128,13 +130,13 @@
   z-index: 9;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.bank_calc_2 .bank_calc_content {
+.bank_calc_2 .bank_calc_content_value {
   position: fixed;
   top: 10%;
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-  width: 40rem;
+  width: 70rem;
   background-color: #ffffff;
 }
 
@@ -190,13 +192,17 @@
           transform: translateX(-50%);
   width: 50rem;
   background-color: #ffffff;
+
+}
+.bank_calc_content_condition .cassets_icons {
+    display: flex;
 }
 
 .bank_calc_content_condition .cassets_icons img {
-  width: 10%;
+  width: 25%;
 }
 .bank_calc_content_condition .form-control {
-  width: 10%;
+  width: 25%;
 }
 
 /* Styles for 5th page */
@@ -219,6 +225,7 @@
   width: 50rem;
   background-color: #ffffff;
 }
+
 .popup_close,
 .bank_close,
 .bank_calc_close,
@@ -231,6 +238,37 @@
   border: none;
   background: transparent;
 }
+/* Styles for 6th page */
+.bank_calc_6 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .bank_calc_content_calculating {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    width: 50rem;
+    background-color: #ffffff;
+  }
+  .bank_calc_6 .cassets_icons {
+    display: flex;
+}
+
+.bank_calc_6 .cassets_icons img {
+  width: 25%;
+}
+.bank_calc_6 .form-control {
+  width: 25%;
+}
+
 
 
          @font-face {
