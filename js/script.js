@@ -289,83 +289,70 @@ window.addEventListener('DOMContentLoaded', function(){
 	
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	//algoritm of this task 
+	
 	next_btn_5.addEventListener('click', function(){
 		bank_calc_5.style.display = 'none';
+		let coins = [],
+			needCoins
 
+		for (let i=0; i< atm_properties.casset_number;i++){
+			
 
+			coins[i] = {val:atm_properties.casset_values[i], count: atm_properties.casset_amount[i]*atm_properties.casset_condition[i]}
+		// console.log(coins[i])
+			
+		}
 
 		answer_summ.innerHTML = atm_properties.getting_amount
 		
-		let using_cassets = [],
-			arr_for_casset_values = [],
-			target_amount = atm_properties.getting_amount
-		for (let i=0; i<atm_properties.casset_number;i++){
-			using_cassets[i] = 0
-			arr_for_casset_values[i] = atm_properties.casset_values[i] 
-		}
-		for (let i=0; i<atm_properties.casset_number; i++){
-			let max = Math.max(...arr_for_casset_values),
-				max_id = arr_for_casset_values.indexOf(max)
-			
+		
+		needCoins = giveMyMoney(atm_properties.getting_amount,coins)
+		console.log(needCoins)
+		if (needCoins.length == 0) {
+				answer.innerHTML = 'Нельзя'
+				for (let i =0; i<atm_properties.casset_number; i++){
+					// console.log('Нельзя')
+					bank_calc_6_show[i].innerHTML = '';
+					bank_calc_6_show_amount[i].innerHTML = atm_properties.casset_amount[i];
+					if (atm_properties.casset_condition[i] == 1) {
+						bank_calc_6_show_condition[i].innerHTML = 'Исправна';
 
-			if (Math.floor(target_amount/max) >= atm_properties.casset_amount[max_id]) {
-					using_cassets[max_id] = atm_properties.casset_amount[max_id]*atm_properties.casset_condition[max_id]
-					
-					target_amount = target_amount - max*atm_properties.casset_amount[max_id]*atm_properties.casset_condition[max_id]
-			
-					arr_for_casset_values[max_id] = 0
+					} else {
+						bank_calc_6_show_condition[i].innerHTML = 'Неисправна';
 
+					}
+					bank_calc_6_show_value[i].innerHTML = atm_properties.casset_values[i];
+
+				}
+				
 				
 			} else {
-				using_cassets[max_id] = Math.floor(target_amount/max)*atm_properties.casset_condition[max_id]
+				answer.innerHTML = 'Можно'
 				
-				target_amount = target_amount - max * Math.floor(target_amount/max)*atm_properties.casset_condition[max_id]
+				for (let i =0; i<atm_properties.casset_number; i++){
+					// console.log('Можно выдать: Из кассеты с '+atm_properties.casset_values[i] +' '+ using_cassets[i]+'купюр')
+					if (needCoins[i] == undefined){
+						bank_calc_6_show[i].innerHTML = 0;
+					} else {
+						bank_calc_6_show[i].innerHTML = needCoins[i];
 
-				arr_for_casset_values[max_id] = 0
-			}
-			if (target_amount == 0) {
-				break
-			}
-		}
-		if (target_amount == 0) {
-			answer.innerHTML = 'Можно'
-			
-			for (let i =0; i<using_cassets.length; i++){
-				// console.log('Можно выдать: Из кассеты с '+atm_properties.casset_values[i] +' '+ using_cassets[i]+'купюр')
-				bank_calc_6_show[i].innerHTML = using_cassets[i];
-				// console.log(i)
-				bank_calc_6_show_amount[i].innerHTML = atm_properties.casset_amount[i];
-				bank_calc_6_show_value[i].innerHTML = atm_properties.casset_values[i];
-				if (atm_properties.casset_condition[i] == 1) {
-					bank_calc_6_show_condition[i].innerHTML = 'Исправна';
+					}
 
-				} else {
-					bank_calc_6_show_condition[i].innerHTML = 'Неисправна';
-
+						// console.log(i)
+					bank_calc_6_show_amount[i].innerHTML = atm_properties.casset_amount[i];
+					bank_calc_6_show_value[i].innerHTML = atm_properties.casset_values[i];
+					if (atm_properties.casset_condition[i] == 1) {
+						bank_calc_6_show_condition[i].innerHTML = 'Исправна';
+	
+					} else {
+						bank_calc_6_show_condition[i].innerHTML = 'Неисправна';
+	
+					}
+					// if (atm_properties.cass){}
+	
 				}
-				// if (atm_properties.cass){}
-
+					
 			}
-		} else {
-			answer.innerHTML = 'Нельзя'
-			for (let i =0; i<using_cassets.length; i++){
-				// console.log('Нельзя')
-				bank_calc_6_show[i].innerHTML = '';
-				bank_calc_6_show_amount[i].innerHTML = atm_properties.casset_amount[i];
-				if (atm_properties.casset_condition[i] == 1) {
-					bank_calc_6_show_condition[i].innerHTML = 'Исправна';
-
-				} else {
-					bank_calc_6_show_condition[i].innerHTML = 'Неисправна';
-
-				}
-				bank_calc_6_show_value[i].innerHTML = atm_properties.casset_values[i];
-
-			}
-				
-		}
-		// console.log(using_cassets);
 
 		for (let i=0; i < 8 - atm_properties.casset_number; i++){
 			answer_cassets[7-i].style.display = 'none'
@@ -436,6 +423,51 @@ window.addEventListener('DOMContentLoaded', function(){
 		atm_properties.getting_amount = 0;
 		getting_amount.value = "0"
 	})
+
+	//algoritm of this task 
+
+	function giveMyMoney(money, coins) {
+		let needCoins = [], 
+			minCoins = []; 
+		minCoins[0] = 0;
+		inf = Number.MAX_VALUE;
+		for (let sum = 1; sum <= money; sum++) {     
+			minCoins[sum] = inf
+			for (let i = 0; i < coins.length; i++) {
+				if (sum >= coins[i].val && minCoins[sum] > minCoins[sum - coins[i].val] + 1) {
+					minCoins[sum] = minCoins[sum - coins[i].val] + 1;
+				}
+			}
+		}
+	 
+		if (minCoins[money] == inf) { 
+			return []; 
+		}
+	 
+		let sum = money;
+		while (sum > 0) {
+			let current_Sum = sum;
+			for (let i = 0; i<coins.length; i++) {
+				let isCoinExist = coins[i].count;
+				if (isCoinExist && sum >= coins[i].val && (minCoins[sum] == minCoins[sum - coins[i].val] + 1 || minCoins[sum] == minCoins[sum - coins[i].val])) {                                  
+					if (!needCoins[i]) {
+						needCoins[i] = 0;
+					}
+					++needCoins[i];
+					// console.log(needCoins) 
+					sum = sum - coins[i].val;
+					coins[i].count -= 1;               
+					break;
+				}
+			}
+	
+			if (current_Sum == sum) {
+				needCoins = [];
+				break; 
+			}
+		}
+		return needCoins;
+	}
 
 
 	
