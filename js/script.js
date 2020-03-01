@@ -295,64 +295,58 @@ window.addEventListener('DOMContentLoaded', function(){
 		let coins = [],
 			needCoins
 
-		for (let i=0; i< atm_properties.casset_number;i++){
+		// for (let i=0; i< atm_properties.casset_number;i++){
+		// 	coins[i] = {val:atm_properties.casset_values[i], count: atm_properties.casset_amount[i]*atm_properties.casset_condition[i]}
 			
-
-			coins[i] = {val:atm_properties.casset_values[i], count: atm_properties.casset_amount[i]*atm_properties.casset_condition[i]}
-		// console.log(coins[i])
-			
-		}
+		// }
 
 		answer_summ.innerHTML = atm_properties.getting_amount
+		console.log(coins)
+		console.log(atm_properties.getting_amount)
 		
+		coins = [ 
+			{ val: 5000, count: 10 }, 
+			{ val: 500, count: 10 },
+			{ val: 100, count: 10 }
+		];
+		console.log(coins)
+
 		
-		needCoins = giveMyMoney(atm_properties.getting_amount,coins)
+		needCoins = givingMoney(atm_properties.getting_amount,coins)
 		console.log(needCoins)
 		if (needCoins.length == 0) {
 				answer.innerHTML = 'Нельзя'
 				for (let i =0; i<atm_properties.casset_number; i++){
-					// console.log('Нельзя')
 					bank_calc_6_show[i].innerHTML = '';
 					bank_calc_6_show_amount[i].innerHTML = atm_properties.casset_amount[i];
 					if (atm_properties.casset_condition[i] == 1) {
 						bank_calc_6_show_condition[i].innerHTML = 'Исправна';
-
 					} else {
 						bank_calc_6_show_condition[i].innerHTML = 'Неисправна';
-
 					}
 					bank_calc_6_show_value[i].innerHTML = atm_properties.casset_values[i];
-
 				}
 				
 				
-			} else {
+		} else {
 				answer.innerHTML = 'Можно'
-				
 				for (let i =0; i<atm_properties.casset_number; i++){
-					// console.log('Можно выдать: Из кассеты с '+atm_properties.casset_values[i] +' '+ using_cassets[i]+'купюр')
 					if (needCoins[i] == undefined){
 						bank_calc_6_show[i].innerHTML = 0;
 					} else {
 						bank_calc_6_show[i].innerHTML = needCoins[i];
-
 					}
-
-						// console.log(i)
 					bank_calc_6_show_amount[i].innerHTML = atm_properties.casset_amount[i];
 					bank_calc_6_show_value[i].innerHTML = atm_properties.casset_values[i];
 					if (atm_properties.casset_condition[i] == 1) {
 						bank_calc_6_show_condition[i].innerHTML = 'Исправна';
-	
 					} else {
 						bank_calc_6_show_condition[i].innerHTML = 'Неисправна';
-	
 					}
-					// if (atm_properties.cass){}
 	
 				}
 					
-			}
+		}
 
 		for (let i=0; i < 8 - atm_properties.casset_number; i++){
 			answer_cassets[7-i].style.display = 'none'
@@ -361,11 +355,6 @@ window.addEventListener('DOMContentLoaded', function(){
 		}
 		atm_properties.casset_number = 0;
 		bank_calc_6.style.display = 'block';
-		
-
-
-
-
 	}) 
 
 	bank_calc_6_close.addEventListener('click', function(){
@@ -426,12 +415,12 @@ window.addEventListener('DOMContentLoaded', function(){
 
 	//algoritm of this task 
 
-	function giveMyMoney(money, coins) {
+	function givingMoney(money, coins) {
 		let needCoins = [], 
 			minCoins = []; 
 		minCoins[0] = 0;
 		inf = Number.MAX_VALUE;
-		for (let sum = 1; sum <= money; sum++) {     
+		for (let sum = 100; sum <= money; sum++) {     
 			minCoins[sum] = inf
 			for (let i = 0; i < coins.length; i++) {
 				if (sum >= coins[i].val && minCoins[sum] > minCoins[sum - coins[i].val] + 1) {
@@ -439,31 +428,68 @@ window.addEventListener('DOMContentLoaded', function(){
 				}
 			}
 		}
-	 
+		
 		if (minCoins[money] == inf) { 
 			return []; 
 		}
 	 
 		let sum = money;
 		while (sum > 0) {
-			let current_Sum = sum;
-			for (let i = 0; i<coins.length; i++) {
-				let isCoinExist = coins[i].count;
-				if (isCoinExist && sum >= coins[i].val && (minCoins[sum] == minCoins[sum - coins[i].val] + 1 || minCoins[sum] == minCoins[sum - coins[i].val])) {                                  
-					if (!needCoins[i]) {
-						needCoins[i] = 0;
-					}
-					++needCoins[i];
-					// console.log(needCoins) 
-					sum = sum - coins[i].val;
-					coins[i].count -= 1;               
-					break;
-				}
-			}
+			let curSum = sum;
+			console.log('curSum '+curSum)
+			for (let i = 0; i < coins.length; i++) {
+				console.log('i '+i)
+				console.log('coin '+coins[i].val)
+				console.log(minCoins[sum-coins[i].val])
+				console.log(minCoins[sum]-1)
+				console.log(sum)
+				console.log('coinscount after '+coins[i].count)         
+				console.log(sum/coins[i].val)      
 	
-			if (current_Sum == sum) {
+	
+			   if (minCoins[sum-coins[i].val] == minCoins[sum]-1 && coins[i].count != 0){
+				// if (isCoinExist && sum >= coins[coin].val && (minCoins[sum] == minCoins[sum - coins[coin].val] + 1 || minCoins[sum] == minCoins[sum - coins[coin].val])) {                                  
+				//     if (!needCoins[coin]) {
+				//         needCoins[coin] = 0;
+				//     }
+				//     ++needCoins[coin];  
+				//     console.log(needCoins)
+				//     console.log(curSum)
+				//     console.log(sum)
+				if (!needCoins[i]) {
+					needCoins[i] = 0;
+				   
+	
+				}
+					sum -= coins[i].val;
+					console.log(sum)
+					
+					coins[i].count -= 1;
+					++needCoins[i]
+					console.log('needCoins '+needCoins[i])
+					console.log('coinscount'+coins[i].count)               
+					break;
+				// }
+			   } else if (minCoins[sum-coins[i].val] != minCoins[sum]-1 && sum/coins[i].val <= coins[i].count && coins[i].count != 0 ){
+				if (!needCoins[i]) {
+					needCoins[i] = 0;
+					
+	
+				}    
+				sum -= coins[i].val;
+					console.log(sum)
+					
+					coins[i].count -= 1;
+					++needCoins[i]
+					console.log('coinscount2'+coins[i].count)               
+					break;
+			   }
+			}
+		
+	
+			if (curSum === sum) {
 				needCoins = [];
-				break; 
+				break; // не хватает купюр
 			}
 		}
 		return needCoins;
