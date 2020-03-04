@@ -293,28 +293,25 @@ window.addEventListener('DOMContentLoaded', function(){
 	next_btn_5.addEventListener('click', function(){
 		bank_calc_5.style.display = 'none';
 		let coins = [],
-			needCoins
+			needCoins1,
+			needCoins = []
 
-		// for (let i=0; i< atm_properties.casset_number;i++){
-		// 	coins[i] = {val:atm_properties.casset_values[i], count: atm_properties.casset_amount[i]*atm_properties.casset_condition[i]}
-			
-		// }
+		for (let i=0; i< atm_properties.casset_number;i++){
+			coins[i] = {val:atm_properties.casset_values[i], count: atm_properties.casset_amount[i]*atm_properties.casset_condition[i]}
+			console.log(coins[i].count)
+			console.log(atm_properties.casset_condition[i])
+		}
 
 		answer_summ.innerHTML = atm_properties.getting_amount
 		console.log(coins)
 		console.log(atm_properties.getting_amount)
 		
-		coins = [ 
-			{ val: 5000, count: 10 }, 
-			{ val: 500, count: 10 },
-			{ val: 100, count: 10 }
-		];
-		console.log(coins)
+		
 
 		
-		needCoins = givingMoney(atm_properties.getting_amount,coins)
-		console.log(needCoins)
-		if (needCoins.length == 0) {
+		needCoins1 = givingMoney(atm_properties.getting_amount,coins)
+		console.log(needCoins1)
+		if (needCoins1.length == 0) {
 				answer.innerHTML = 'Нельзя'
 				for (let i =0; i<atm_properties.casset_number; i++){
 					bank_calc_6_show[i].innerHTML = '';
@@ -329,6 +326,28 @@ window.addEventListener('DOMContentLoaded', function(){
 				
 				
 		} else {
+				for(let i=0; i<needCoins1.length; i++){
+					if (isNaN(needCoins1[i].count )){
+						needCoins1[i].count = 0
+					}
+				}
+				console.log(needCoins1)
+				// console.log('cassets '+atm_propert)
+				for (let i=0;i < atm_properties.casset_number ; i++){
+					for (let j = 0; j < needCoins1.length; j++){ 
+						if (atm_properties.casset_values[i] == needCoins1[j].value && atm_properties.casset_amount[i] != 0){
+							if (needCoins1[j].count < atm_properties.casset_amount[i]) {
+								needCoins[i] = needCoins1[j].count
+								console.log(1)
+							} else {
+								needCoins[i] = atm_properties.casset_amount[i]
+								needCoins1[j].count = needCoins1[j].count - atm_properties.casset_amount[i]
+								console.log(2)
+							}
+						}
+					}
+				}
+				console.log(needCoins)
 				answer.innerHTML = 'Можно'
 				for (let i =0; i<atm_properties.casset_number; i++){
 					if (needCoins[i] == undefined){
@@ -416,83 +435,426 @@ window.addEventListener('DOMContentLoaded', function(){
 	//algoritm of this task 
 
 	function givingMoney(money, coins) {
-		let needCoins = [], 
-			minCoins = []; 
-		minCoins[0] = 0;
-		inf = Number.MAX_VALUE;
-		for (let sum = 100; sum <= money; sum++) {     
-			minCoins[sum] = inf
-			for (let i = 0; i < coins.length; i++) {
-				if (sum >= coins[i].val && minCoins[sum] > minCoins[sum - coins[i].val] + 1) {
-					minCoins[sum] = minCoins[sum - coins[i].val] + 1;
-				}
-			}
-		}
+		let value1 =[],
+			count1 = [],
+			value = [],
+			count = [],
+			needCoins1 = [],
+			needCoins2 = []
+	
 		
-		if (minCoins[money] == inf) { 
-			return []; 
+		function sorting(arr) {
+			arr.sort((a, b) => a.val < b.val ? 1 : -1);
 		}
-	 
-		let sum = money;
-		while (sum > 0) {
-			let curSum = sum;
-			console.log('curSum '+curSum)
-			for (let i = 0; i < coins.length; i++) {
-				console.log('i '+i)
-				console.log('coin '+coins[i].val)
-				console.log(minCoins[sum-coins[i].val])
-				console.log(minCoins[sum]-1)
-				console.log(sum)
-				console.log('coinscount after '+coins[i].count)         
-				console.log(sum/coins[i].val)      
+		sorting(coins)
+		for (let i = 0; i < coins.length; i++){
+			value1[i] = coins[i].val
+			count1[i] = coins[i].count
+		}
+		console.log(value1)
+		console.log(count1)
 	
+		for (let i=0; i<coins.length; i++){
+			if (value1[i] != 0){
+				let check = value1[i]
+				count[i] = 0
+				console.log(check)
+				value[i] = value1[i]
+				while (value1.indexOf(check,0) != -1 ){
+					console.log(i)
+					console.log(count1[value1.indexOf(check,i+1)])
+					count[i] = count[i] + count1[value1.indexOf(check,i)]
+					console.log(count[i])
+					console.log(value1)
 	
-			   if (minCoins[sum-coins[i].val] == minCoins[sum]-1 && coins[i].count != 0){
-				// if (isCoinExist && sum >= coins[coin].val && (minCoins[sum] == minCoins[sum - coins[coin].val] + 1 || minCoins[sum] == minCoins[sum - coins[coin].val])) {                                  
-				//     if (!needCoins[coin]) {
-				//         needCoins[coin] = 0;
-				//     }
-				//     ++needCoins[coin];  
-				//     console.log(needCoins)
-				//     console.log(curSum)
-				//     console.log(sum)
-				if (!needCoins[i]) {
-					needCoins[i] = 0;
-				   
+					// console.log(count1[i] + count1[value1.indexOf(check,0)])
+					  
+				// if (value1[i] != 0){
+				//     value[i] = value1[i]
 	
-				}
-					sum -= coins[i].val;
-					console.log(sum)
-					
-					coins[i].count -= 1;
-					++needCoins[i]
-					console.log('needCoins '+needCoins[i])
-					console.log('coinscount'+coins[i].count)               
-					break;
 				// }
-			   } else if (minCoins[sum-coins[i].val] != minCoins[sum]-1 && sum/coins[i].val <= coins[i].count && coins[i].count != 0 ){
-				if (!needCoins[i]) {
-					needCoins[i] = 0;
-					
-	
-				}    
-				sum -= coins[i].val;
-					console.log(sum)
-					
-					coins[i].count -= 1;
-					++needCoins[i]
-					console.log('coinscount2'+coins[i].count)               
-					break;
-			   }
+					value1[value1.indexOf(check,0)]=0
+				}
 			}
-		
-	
-			if (curSum === sum) {
-				needCoins = [];
-				break; // не хватает купюр
+			
+			
+		}
+		for (let i=0; i < count.length;i++){
+			if (count[i] == undefined){
+				count[i] = 0
+			}
+			if (value[i] == undefined){
+				value[i] = 0
 			}
 		}
-		return needCoins;
+		console.log(value)
+		// console.log(value[1])
+		console.log(count)
+	
+		let sum1 = money,
+			sum2 = money,
+			sum3 = money,
+			sum4 = money,
+			sum5 = money,
+			sum6 = money
+		if (value.indexOf(5000,0) != -1 && value.indexOf(2000,0) != -1 && money > 5000) {
+			let max5 = Math.floor(sum1/5000)
+			if (max5 <= count[0]) {
+				needCoins1[0] = Math.floor(sum1/5000)
+	
+				sum1 = sum1 - Math.floor(sum1/5000)*5000
+			} else {
+				needCoins1[0] = count[0]
+	
+				sum1 = sum1 - count[0]*5000
+			}
+			for (let i = 1; i < value.length;i++){
+				if (value[i] == 500 && value.indexOf(200,0) != -1 && sum1 > 500) {
+					
+					sum3 = sum1
+					let needCoins3 = []
+					for (let j = 0; j < needCoins1.length; j++ ){
+						needCoins3[j] = needCoins1[j]
+					}                
+					if (Math.floor(sum3/value[i]) <= count[i] && value[i] != 0){
+						needCoins3[i] = Math.floor(sum3/value[i])
+	
+						sum3 = sum3 - Math.floor(sum3/value[i])*value[i]
+					} else if (Math.floor(sum3/value[i]) > count[i] && value[i] != 0){
+						needCoins3[i] = count[i]
+	
+						sum3 = sum3 - count[i]*value[i]
+	
+					}
+					
+					for (let j = i; j < value.length; j++){
+						if (Math.floor(sum3/value[j]) <= count[j] && value[j] != 0) {
+							needCoins3[i] = Math.floor(sum3/value[i])
+	
+							sum3 = sum3 - Math.floor(sum3/value[j])*value[j]
+	
+						} else if (Math.floor(sum3/value[j]) > count[j] && value[j] != 0){
+							needCoins3[i] = Math.floor(sum3/value[i])
+	
+							sum3 = sum3 - count[j]*value[j]
+							
+						}
+					}
+	
+					sum4 = sum1
+					let needCoins4 = []
+					for (let j = 0; j < needCoins1.length; j++ ){
+						needCoins4[j] = needCoins1[j]
+					} 
+	
+					
+					if (Math.floor(sum4/value[i]) <= count[i] && value[i] != 0){
+						needCoins4[i] = Math.floor(sum4/value[i])-1
+	
+						sum4 = sum4 - (Math.floor(sum4/value[i])-1)*value[i]
+	
+					} else if (Math.floor(sum4/value[i]) > count[i] && value[i] != 0){
+						needCoins4[i] = count[i] -1
+	
+						sum4 = sum4 - (count[i]-1)*value[i]
+	
+					}
+					
+					for (let j = i; j < value.length; j++){
+						if (Math.floor(sum4/value[j]) <= count[j] && value[j] != 0) {
+							needCoins4[j] = Math.floor(sum4/value[j])
+	
+							sum4 = sum4 - Math.floor(sum4/value[j])*value[j]
+	
+						} else if (Math.floor(sum4/value[j]) > count[j] && value[j] != 0){
+							needCoins4[j] = count[j]
+	
+							sum4 = sum4 - count[j]*value[j]
+	
+						}
+					}
+				
+				} else {
+					if (Math.floor(sum1/value[i]) >= count[i] && count[i] != 0) {
+						console.log(sum1)
+						needCoins1[i] = count[i]
+	
+						sum1 = sum1 - count[i]*value[i]
+
+	
+					} else if (Math.floor(sum1/value[i]) < count[i] && count[i] != 0){
+						needCoins1[i] = Math.floor(sum1/value[i])
+						console.log('i ' + i)
+						console.log('needCoins1 ' + needCoins1)
+						console.log('sum1 after '+sum1)
+
+						sum1 = sum1 - Math.floor(sum1/value[i])*value[i]
+						console.log('sum1 before '+ sum1)
+					}
+				}       
+	
+			}
+	
+	
+			if (max5 <= count[0]) {
+				needCoins2[0] = Math.floor(sum2/5000)-1
+	
+				sum2 = sum2 - (Math.floor(sum2/5000)-1)*5000
+			} else {
+				needCoins2[0] = count[0] -1 
+	
+				sum2 = sum2 - (count[0]-1)*5000
+			}
+			for (let i = 1; i < value.length;i++){
+	
+				if (value[i] == 500 && value.indexOf(200,0) != -1 && sum2 >= 500) {
+					
+					sum5 = sum2
+					let needCoins5 = []
+					for (let j = 0; j < needCoins2.length; j++ ){
+						needCoins5[j] = needCoins2[j]
+					}    
+					
+					if (Math.floor(sum5/value[i]) <= count[i] && count[i] != 0){
+						needCoins5[i] = Math.floor(sum/value[i])
+	
+						sum5 = sum5 - Math.floor(sum5/value[i])*value[i]
+					} else if (Math.floor(sum5/value[i]) > count[i] && count[i] != 0){
+						needCoins5[i] = count[i]
+	
+						sum5 = sum5 - count[i]*value[i]
+	
+					}
+					
+					for (let j = i; j < value.length; j++){
+						if (Math.floor(sum5/value[j]) <= count[j] && value[j] != 0) {
+							needCoins5[j] = Math.floor(sum5/value[j])
+	
+							sum5 = sum5 - Math.floor(sum5/value[j])*value[j]
+						} else if (Math.floor(sum5/value[j]) > count[j] && value[j] != 0){
+							needCoins5[j] = count[j]
+	
+							sum5 = sum5 - count[j]*value[j]
+						}
+					}
+	
+					sum6 = sum2
+					let needCoins6 = []
+					for (let j = 0; j < needCoins2.length; j++ ){
+						needCoins6[j] = needCoins2[j]
+					}    
+						
+					
+					if (Math.floor(sum6/value[i]) <= count[i] && value[i] != 0){
+						needCoins6[i] = Math.floor(sum6/value[i])-1
+	
+						sum6 = sum6 - (Math.floor(sum6/value[i])-1)*value[i]
+	
+					} else if (Math.floor(sum6/value[i]) > count[i] && value[i] != 0){
+						needCoins6[i] = count[i]-1 
+	
+						sum6 = sum6 - (count[i]-1)*value[i]
+					}
+					
+					for (let j = i; j < value.length; j++){
+						if (Math.floor(sum6/value[j]) <= count[j] && value[j] != 0) {
+							needCoins6[j] = Math.floor(sum6/value[j])
+	
+							sum6 = sum6 - Math.floor(sum6/value[j])*value[j]
+						} else if (Math.floor(sum6/value[j]) > count[j] && value[j] != 0){
+							needCoins6[j] = count[j]
+	
+							sum6 = sum6 - count[j]*value[j]
+						}
+					}
+				
+				} else {
+					if (Math.floor(sum2/value[i]) >= count[i] && value[i] != 0) {
+						needCoins2[i] = count[i]
+						console.log('1')
+	
+						sum2 = sum2 - count[i]*value[i]
+					} else if (Math.floor(sum2/value[i]) < count[i] && value[i] != 0){
+						needCoins2[i] = Math.floor(sum2/value[i])
+						console.log('1')
+
+	
+						sum2 = sum2 - Math.floor(sum2/value[i])*value[i]
+					}
+				}       
+	
+			}
+		
+		} else {
+			for (let i = 0; i < value.length;i++){
+				if (value[i] == 500 && value.indexOf(200,0) != -1 && sum1 > 500) {
+					console.log(']eq')
+					sum3 = sum1
+					console.log('sum3 '+sum3)
+					let needCoins3 = []
+					for (let j = 0; j < needCoins1.length; j++ ){
+						needCoins3[j] = needCoins1[j]
+					}                
+					if (Math.floor(sum3/value[i]) <= count[i] && value[i] != 0){
+						needCoins3[i] = Math.floor(sum3/value[i])
+	
+						sum3 = sum3 - Math.floor(sum3/value[i])*value[i]
+					} else if (Math.floor(sum3/value[i]) > count[i] && value[i] != 0){
+	
+						needCoins3[i] = count[i]
+						sum3 = sum3 - count[i]*value[i]
+	
+					}
+					
+					for (let j = i; j < value.length; j++){
+						if (Math.floor(sum3/value[j]) <= count[j] && value[j] !=0) {
+							needCoins3[i] = Math.floor(sum3/value[i])
+	
+							sum3 = sum3 - Math.floor(sum3/value[j])*value[j]
+	
+						} else if (Math.floor(sum3/value[j]) > count[j] && value[j] !=0){
+							needCoins3[i] = Math.floor(sum3/value[i])
+	
+							sum3 = sum3 - count[j]*value[j]
+							
+						}
+					}
+	
+					sum4 = sum1
+					let needCoins4 = []
+					for (let j = 0; j < needCoins1.length; j++ ){
+						needCoins4[j] = needCoins1[j]
+					} 
+	
+					
+					if (Math.floor(sum4/value[i]) <= count[i] && value[i] != 0){
+						needCoins4[i] = Math.floor(sum4/value[i])-1
+	 
+						sum4 = sum4 - (Math.floor(sum4/value[i])-1)*value[i]
+	
+					} else if (Math.floor(sum4/value[i]) <= count[i] && count[i] != 0) {
+						needCoins4[i] = count[i] -1
+	
+						sum4 = sum4 - (count[i]-1)*value[i]
+	
+					}
+					
+					for (let j = i; j < value.length; j++){
+						if (Math.floor(sum4/value[j]) <= count[j] && count[i] != 0) {
+							needCoins4[j] = Math.floor(sum4/value[j])
+	
+							sum4 = sum4 - Math.floor(sum4/value[j])*value[j]
+	
+						} else if (Math.floor(sum4/value[j]) > count[j] && count[i] != 0) {
+							needCoins4[j] = count[j]
+	
+							sum4 = sum4 - count[j]*value[j]
+	
+						}
+					}
+				
+				} else {
+	
+					if (Math.floor(sum1/value[i]) >= count[i] && count[i] != 0) {
+						needCoins1[i] = count[i]
+						
+						sum1 = sum1 - count[i]*value[i]
+						console.log(sum1)
+							console.log('i ' + i)
+		
+						console.log(needCoins1[i])
+					} else if (Math.floor(sum1/value[i]) < count[i] && count[i] != 0){
+						needCoins1[i] = Math.floor(sum1/value[i])
+						console.log('1')
+
+	
+						sum1 = sum1 - Math.floor(sum1/value[i])*value[i]
+						console.log('sum '+sum1)
+						console.log('i '+i)
+						console.log('need '+needCoins1[i])
+	
+					}
+
+				}       
+				console.log(needCoins1)
+
+	
+			}
+	
+	
+		}
+		console.log(needCoins1)
+		let answer = []
+		if (sum1 == 0) {
+			for (let i =0; i < needCoins1.length; i++){
+				answer[i] = {value:0,count:0}
+			}
+			
+			for (let i =0; i < needCoins1.length; i++){
+				console.log('i'+i)
+				console.log(needCoins1[i])
+				answer[i].value = value[i]
+				answer[i].count = needCoins1[i] 
+				
+			}
+			return answer
+		} else if (sum2 == 0){
+			for (let i =0; i < needCoins2.length; i++){
+				answer[i] = {value:0,count:0}
+			}
+			for (let i =0; i < needCoins2.length; i++){
+				answer[i].value = value[i]
+				answer[i].count = needCoins2[i] 
+				
+			}
+			return answer
+		} else if (sum3 == 0){
+			console.log('sum3 '+sum3)
+			for (let i =0; i < needCoins3.length; i++){
+				answer[i] = {value:0,count:0}
+			}
+			for (let i =0; i < needCoins3.length; i++){
+				answer[i].value = value[i]
+				answer[i].count = needCoins3[i] 
+				
+			}
+			return answer
+		} else if (sum4 == 0){
+			for (let i =0; i < needCoins4.length; i++){
+				answer[i] = {value:0,count:0}
+			}
+			for (let i =0; i < needCoins4.length; i++){
+				answer[i].value = value[i]
+				answer[i].count = needCoins4[i] 
+				
+			}
+			return answer
+		} else if (sum5 == 0){
+			for (let i =0; i < needCoins5.length; i++){
+				answer[i] = {value:0,count:0}
+			}
+			for (let i =0; i < needCoins5.length; i++){
+				answer[i].value = value[i]
+				answer[i].count = needCoins5[i] 
+				
+			}
+			return answer
+		} else if (sum6 == 0){
+			for (let i =0; i < needCoins6.length; i++){
+				answer[i] = {value:0,count:0}
+			}
+			for (let i =0; i < needCoins6.length; i++){
+				answer[i].value = value[i]
+				answer[i].count = needCoins6[i] 
+				
+			}
+			return answer
+			
+		} else {
+			return answer
+		}
+			
+	
 	}
 
 
